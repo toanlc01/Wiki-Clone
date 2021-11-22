@@ -2,6 +2,7 @@ from django.http.response import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages
 
 
 from . import util
@@ -42,3 +43,21 @@ def search(request):
         return render(request, "encyclopedia/searchResults.html", {
             "substrings": substrings
         })
+
+
+def newPage(request):
+    if request.method == "GET":
+        return render(request, "encyclopedia/newPage.html")
+
+    title = request.POST["title"]
+    content = request.POST["content"]
+    entries = util.list_entries()
+    isTitleInEntries = title.lower() in (entry.lower() for entry in entries)
+
+    if isTitleInEntries:
+        messages.add_message(request, messages.ERROR,
+                             "The title already exists!")
+        return render(request, "encyclopedia/newPage.html")
+
+    util.save_entry(title, content)
+    return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
