@@ -4,7 +4,10 @@
 
 {% block body %}
 
-<!-- <h1>Entry Page</h1> -->
+<form action="{% url 'encyclopedia:editPage' %}">
+    <button type="submit" name="title" value="{{ title }}">Edit Page</button>
+</form>
+
 {{ content|safe }}
 
 {% endblock %}

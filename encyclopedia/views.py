@@ -20,7 +20,8 @@ def entryPage(request, TITLE):
     content = util.get_entry(TITLE)
     if content:
         return render(request, "encyclopedia/entryPage.html", {
-            "content": markdown2.markdown(content)
+            "content": markdown2.markdown(content),
+            "title": TITLE
         })
     else:
         return render(request, "encyclopedia/entryPage.html", {
@@ -61,3 +62,19 @@ def newPage(request):
 
     util.save_entry(title, content)
     return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
+
+
+def editPage(request):
+    if request.method == "GET":
+        title = request.GET['title']
+        content = util.get_entry(title)
+        return render(request, "encyclopedia/editPage.html", {
+            "title": title,
+            "content": content
+        })
+
+    if request.method == "POST":
+        title = request.POST['title']
+        content = request.POST['content']
+        util.edit_entry(title, content)
+        return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
