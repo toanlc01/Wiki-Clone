@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
+import random
 
 
 from . import util
@@ -60,7 +61,7 @@ def newPage(request):
                              "The title already exists!")
         return render(request, "encyclopedia/newPage.html")
 
-    util.save_entry(title, content)
+    util.add_entry(title, content)
     return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
 
 
@@ -76,5 +77,11 @@ def editPage(request):
     if request.method == "POST":
         title = request.POST['title']
         content = request.POST['content']
-        util.edit_entry(title, content)
+        util.save_entry(title, content)
         return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
+
+
+def randomPage(request):
+    entries = util.list_entries()
+    randomTitle = random.choice(entries)
+    return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': randomTitle}))
