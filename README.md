@@ -1,5 +1,9 @@
 # Wiki-Clone
 
+## Instruction to run the code
+* You first need to get the code by either downloading or doing git clone
+* Once you have the code, you might need to install Django by running "pips install Django" in case you have not done so.
+* On the terminal (or command line), run "python(3) manage.py runserver. (Make sure you are in the folder that contains the file manage.py. Otherwise, the code will not run)
 
 ## Wiki's main interface
 ![image](https://user-images.githubusercontent.com/69965660/142842301-8d4d1e33-33eb-4b95-bf2c-7d78598ab852.png)
