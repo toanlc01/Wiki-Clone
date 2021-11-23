@@ -61,7 +61,7 @@ def newPage(request):
                              "The title already exists!")
         return render(request, "encyclopedia/newPage.html")
 
-    util.add_entry(title, content)
+    util.save_entry(title, content)
     return HttpResponseRedirect(reverse("encyclopedia:entryPage", kwargs={'TITLE': title}))
 
 
